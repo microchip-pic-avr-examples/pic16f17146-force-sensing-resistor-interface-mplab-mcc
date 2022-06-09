@@ -1,0 +1,58 @@
+{
+    "metaDataVersion": "1.0.0",
+    "category": "com.microchip.ide.project",
+    "content": {
+        "metaDataVersion": "1.3.0",
+        "name": "com.microchip.mcu8.mplabx.project.pic16f17146-force-sensing-resistor-interface-mplab-mcc",
+        "version": "1.0.0",
+        "displayName": "Force Sensing Resistor interface using PIC16F17146 Microcontroller",
+        "projectName": "pic16f17146-force-sensing-resistor-interface-mplab-mcc",
+        "shortDescription": "This code example demonstrates how to interface a force sensor using the built-in OPA and ADCC peripheral of the PIC microcontroller. Some compatible PIC16F17146 family of MCUs are: PIC16F17126, PIC16F17146",
+        "ide": {
+            "name": "MPLAB X",
+            "semverRange": ">=6.0.0"
+        },
+        "compiler": [
+            {
+                "name": "XC8",
+                "semverRange": "^2.36.0"
+            }
+        ],
+        "dfp": {
+            "name": "PIC16F1xxxx_DFP",
+            "semverRange": "^1.13.178"
+        },
+        "configurator": {
+            "name": "MCC",
+            "semverRange": ">=5.1.2"
+        },
+        "device": {
+            "metaDataVersion": "1.0.0",
+            "category": "com.microchip.portal.contentRef",
+            "content": {
+                "metaDataVersion": "1.0.0",
+                "category": "com.microchip.device",
+                "name": "PIC16F17146",
+                "versionRange": "*"
+            }
+        },
+        "author": "Irene Mary Abraham",
+        "peripherals": [
+		"OPAMP","ADCC"
+		],
+        "keywords": [
+		"Melody"
+		],
+        "additionalData": {
+            "longDescription": {
+                "metaDataVersion": "1.0.0",
+                "category": "com.microchip.portal.fileRef",
+                "content": {
+                    "metaDataVersion": "1.0.0",
+                    "fileName": "./README.md",
+                    "mimeType": "text/markdown"
+                }
+            }
+        }
+    }
+}
