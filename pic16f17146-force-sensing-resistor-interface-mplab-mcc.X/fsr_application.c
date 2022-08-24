@@ -22,7 +22,7 @@
 #include "fsr_application.h"
 
 // Uncomment below #define for graphical view of the ADCC results
-#define GRAPH_FSR
+//#define GRAPH_FSR
 
 #ifdef GRAPH_FSR 
 #define  TIMER2_PERIOD (17)       // For 100ms Timer period
@@ -35,6 +35,7 @@
 #define END_OF_FRAME (0xA0)
 
 #define ADCC_MAX_COUNT  (1650) // ADCC output varies from 0 to 1.65 (Vdd/2), ADCC reference is 2.048V
+#define HARDWARE_FAULT_COUNT (ADCC_MAX_COUNT - 15) // Hardware fault will be raised once it crosses ~99% of ADCC full count
 
 adccConversionState_t adccConversion = INITIATE;
 int16_t adccBaseValue = 0;
@@ -60,7 +61,7 @@ void FSRApplication_Task(void)
 
         adccCount = ADCC_GetFilterValue();
 
-        if ((adccCount <= 0) || (adccCount >= ADCC_MAX_COUNT))
+        if ((adccCount <= 0) || (adccCount >= HARDWARE_FAULT_COUNT))
         {
             printf("ADC Count : %d \r\n", adccCount);
             printf("Hardware Fault \r\n\n");

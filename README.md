@@ -7,7 +7,7 @@
 This example aims to interface the Force Sensing Resistor(FSR) using the rich set of analog peripherals such as Operational Amplifier (OPA), 12-bit differential Analog-to-Digital Converter with Computation(ADCC), Digital-to-Analog Converter(DAC) and Fixed Voltage Reference(FVR) of PIC16F17146 microcontroller. The use of internal OPA and other analog peripherals helps to reduce BOM cost and minimizes number of external components used.
 
 ## Related Documentation
-- [PIC16F17146 Product Page](https://www.microchip.com/en-us/product/PIC16F17146)
+- [PIC16F17146 Product Page](https://www.microchip.com/product/PIC16F17146)
 - [PIC16F17146 Data Sheet](https://www.microchip.com/DS40002343)
 
 ## Software Used
@@ -17,8 +17,8 @@ This example aims to interface the Force Sensing Resistor(FSR) using the rich se
 - Microchip PIC16F1xxxx Series Device Support [v1.13.178 or newer](https://packs.download.microchip.com/)
 
 ## Hardware Used
-- [PIC16F17146 Curiosity Nano Board](https://www.microchip.com/en-us/development-tool/EV72J15A)
-- [Curiosity Nano base board](https://www.microchip.com/en-us/development-tool/AC164162)
+- [PIC16F17146 Curiosity Nano Board](https://www.microchip.com/development-tool/EV72J15A)
+- [Curiosity Nano base board](https://www.microchip.com/development-tool/AC164162)
 - [Proto Click](https://www.mikroe.com/proto-click)
 - [FSR 400 Series](https://www.interlinkelectronics.com/fsr-400-series)
 - Resistor (1.5kohm)
@@ -108,7 +108,7 @@ Open the Data Visualizer tool which is available as a plugin in MPLAB X IDE.
 
 ![data-visualizer-2](images/data-visualizer-2.png)
 
-7.  Select source of the plot as COM7 port.
+7.  Select source of the plot as selected CNANO port (in our case its COM16).
 8.	Add plot for ADCC count and Force Applied.
 
 ![data-visualizer-3](images/data-visualizer-3.png)
