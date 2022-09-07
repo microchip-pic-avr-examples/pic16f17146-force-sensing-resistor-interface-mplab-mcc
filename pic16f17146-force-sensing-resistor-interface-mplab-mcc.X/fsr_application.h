@@ -25,20 +25,13 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-//Different state of ADCC conversion
-typedef enum {
-        RESTART,
-        COMPLETED,
-        INITIATE
-}adccConversionState_t;
-
 /**
   Section: FSR Application APIs
 */
 
 /**
  * @ingroup fsr_application
- * @brief This API initializes the FSR sensor. This routine must be called on power up to calculate the offset value of ADCC
+ * @brief This API initializes the FSR sensor. This routine must be called on power up to calculate the offset count of ADCC,
  * when no force is applied on FSR sensor.
  * @param none
  * @return none
@@ -49,7 +42,7 @@ void FSR_Initilialize(void);
 /**
  * @ingroup fsr_application
  * @brief This API measures the force applied on FSR sensor and converts it to equivalent percentage of
- * maximum force and displays on terminal.
+ * maximum force and displays on terminal/graphical format using data visualizer.
  * @param none
  * @return none
 */
@@ -57,11 +50,11 @@ void FSRApplication_Task(void);
 
 /**
  * @ingroup fsr_application
- * @brief This API sets the input channels of ADCC
- * @param none
+ * @brief This API sets the positive input channels of ADCC
+ * @param channel - ADCC positive channel
  * @return none
 */
-void SetADCCInputChannel(void);
+void SetADCCPositiveChannel(adcc_channel_t channel);
 
 /**
  * @ingroup fsr_application

@@ -10,12 +10,6 @@
         <logicalFolder name="adcc" displayName="adcc" projectFiles="true">
           <itemPath>mcc_generated_files/adcc/adcc.h</itemPath>
         </logicalFolder>
-        <logicalFolder name="dac" displayName="dac" projectFiles="true">
-          <itemPath>mcc_generated_files/dac/dac1.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="fvr" displayName="fvr" projectFiles="true">
-          <itemPath>mcc_generated_files/fvr/fvr.h</itemPath>
-        </logicalFolder>
         <logicalFolder name="opa" displayName="opa" projectFiles="true">
           <itemPath>mcc_generated_files/opa/opa1.h</itemPath>
         </logicalFolder>
@@ -51,16 +45,6 @@
         <logicalFolder name="adcc" displayName="adcc" projectFiles="true">
           <logicalFolder name="src" displayName="src" projectFiles="true">
             <itemPath>mcc_generated_files/adcc/src/adcc.c</itemPath>
-          </logicalFolder>
-        </logicalFolder>
-        <logicalFolder name="dac" displayName="dac" projectFiles="true">
-          <logicalFolder name="src" displayName="src" projectFiles="true">
-            <itemPath>mcc_generated_files/dac/src/dac1.c</itemPath>
-          </logicalFolder>
-        </logicalFolder>
-        <logicalFolder name="fvr" displayName="fvr" projectFiles="true">
-          <logicalFolder name="src" displayName="src" projectFiles="true">
-            <itemPath>mcc_generated_files/fvr/src/fvr.c</itemPath>
           </logicalFolder>
         </logicalFolder>
         <logicalFolder name="opa" displayName="opa" projectFiles="true">
@@ -111,11 +95,11 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>nEdbgTool</platformTool>
         <languageToolchain>XC8</languageToolchain>
-        <languageToolchainVersion>2.36</languageToolchainVersion>
+        <languageToolchainVersion>2.40</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC16F1xxxx_DFP" vendor="Microchip" version="1.13.178"/>
+        <pack name="PIC16F1xxxx_DFP" vendor="Microchip" version="1.14.187"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -344,11 +328,11 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>noID</platformTool>
         <languageToolchain>XC8</languageToolchain>
-        <languageToolchainVersion>2.36</languageToolchainVersion>
+        <languageToolchainVersion>2.40</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC16F1xxxx_DFP" vendor="Microchip" version="1.13.178"/>
+        <pack name="PIC16F1xxxx_DFP" vendor="Microchip" version="1.14.187"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>

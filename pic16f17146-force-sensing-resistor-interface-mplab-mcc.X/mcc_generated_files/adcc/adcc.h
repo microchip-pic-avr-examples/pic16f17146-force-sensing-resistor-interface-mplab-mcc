@@ -45,43 +45,28 @@
  @typedef adc_result_t
  @brief This typedef should be used for result of A/D conversion.
 */
-typedef int16_t adc_result_t;
-#ifndef int24_t
-typedef __int24 int24_t;
+typedef uint16_t adc_result_t;
+#ifndef uint24_t
+typedef __uint24 uint24_t;
 #endif
 
 
 /**
  * @ingroup adcc
- * @enum adcc_posChannel_t
- * @brief This enumeration contains available ADC positive channels.
+ * @enum adcc_channel_t
+ * @brief This enumeration contains available ADC channels.
 */
 typedef enum
 {
-    pChannel_ADCG1 =  0x3,
-    pChannel_OPA1OUT =  0x39,
-    pChannel_VSS =  0x3a,
-    pChannel_Temp =  0x3b,
-    pChannel_DAC1OUT =  0x3c,
-    pChannel_DAC2OUT =  0x3d,
-    pChannel_FVR_Buffer1 =  0x3e,
-    pChannel_FVR_Buffer2 =  0x3f
-} adcc_posChannel_t;
-
-/**
- * @ingroup adcc
- * @enum adcc_negChannel_t
- * @brief This enumeration contains available ADC negative channels.
-*/
-typedef enum
-{
-    nChannel_VSS =  0x3a,
-    nChannel_Temp =  0x3b,
-    nChannel_DAC1OUT =  0x3c,
-    nChannel_DAC2OUT =  0x3d,
-    nChannel_FVR_Buffer1 =  0x3e,
-    nChannel_FVR_Buffer2 =  0x3f
-} adcc_negChannel_t;
+    channel_ADCG1 =  0x3,
+    channel_OPA1OUT =  0x39,
+    channel_VSS =  0x3a,
+    channel_Temp =  0x3b,
+    channel_DAC1OUT =  0x3c,
+    channel_DAC2OUT =  0x3d,
+    channel_FVR_Buffer1 =  0x3e,
+    channel_FVR_Buffer2 =  0x3f
+} adcc_channel_t;
 
 /**
   Section: ADCC Module APIs
@@ -98,13 +83,11 @@ void ADCC_Initialize(void);
 /**
  * @ingroup adcc
  * @brief This API starts A/D conversion on selected channel.
- * @param posChannel - Positive Analog channel number on which A/D conversion has to be applied.
- *                     Refer adcc_posChannel_t for available list of positive channels
- *        negChannel - Negative Analog channel number on which A/D conversion has to be applied.
- *                     Refer adcc_ngChannel_t for available list of negative channels
+ * @param channel - Analog channel number on which A/D conversion has to be applied.
+ *                  Refer adcc_channel_t for available list of channels
  * @return none
 */
-void ADCC_StartConversion(adcc_posChannel_t posChannel,adcc_negChannel_t negChannel);
+void ADCC_StartConversion(adcc_channel_t channel);
 
 /**
  * @ingroup adcc
@@ -127,15 +110,13 @@ adc_result_t ADCC_GetConversionResult(void);
 
 /**
  * @ingroup adcc
- * @brief This API is used to retrieve the result of single A/D conversion on given channels in differential mode..
+ * @brief This API is used to retrieve the result of single A/D conversion on given channel in single-ended mode.
  * @pre ADCC_DisableContinuousConversion function should have been called before calling this function
- * @param posChannel - Positive Analog channel number on which A/D conversion has to be applied.
- *                     Refer adcc_posChannel_t for available list of positive channels
- *        negChannel - Negative Analog channel number on which A/D conversion has to be applied.
- *                     Refer adcc_ngChannel_t for available list of negative channels
+ * @param channel - Analog channel number on which A/D conversion has to be applied.
+ *                  Refer adcc_channel_t  for available channels
  * @return The result of A/D conversion. Refer adc_result_t
 */
-adc_result_t ADCC_GetSingleConversion(adcc_posChannel_t posChannel,adcc_negChannel_t negChannel);
+adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel);
 
 /**
  * @ingroup adcc
@@ -210,7 +191,7 @@ inline void ADCC_ClearAccumulator(void);
  * @param none
  * @return Value of ADC accumulator.
 */
-int24_t ADCC_GetAccumulatorValue(void);
+uint24_t ADCC_GetAccumulatorValue(void);
 
 /**
  * @ingroup adcc
@@ -228,7 +209,7 @@ bool ADCC_HasAccumulatorOverflowed(void);
  * @param none
  * @return 16-bit value obtained from ADFLTRH and ADFLTRL registers.
 */
-int16_t ADCC_GetFilterValue(void);
+uint16_t ADCC_GetFilterValue(void);
 
 /**
  * @ingroup adcc
@@ -237,7 +218,7 @@ int16_t ADCC_GetFilterValue(void);
  * @param none
  * @return 16-bit value obtained from ADPREVH and ADPREVL registers.
 */
-int16_t ADCC_GetPreviousResult(void);
+uint16_t ADCC_GetPreviousResult(void);
 
 /**
  * @ingroup adcc
@@ -245,7 +226,7 @@ int16_t ADCC_GetPreviousResult(void);
  * @param setPoint - 16-bit value for set point.
  * @return none
 */
-void ADCC_DefineSetPoint(int16_t setPoint);
+void ADCC_DefineSetPoint(uint16_t setPoint);
 
 /**
  * @ingroup adcc
@@ -253,7 +234,7 @@ void ADCC_DefineSetPoint(int16_t setPoint);
  * @param upperThreshold - 16-bit value for upper threshold.
  * @return none
 */
-void ADCC_SetUpperThreshold(int16_t upperThreshold);
+void ADCC_SetUpperThreshold(uint16_t upperThreshold);
 
 /**
  * @ingroup adcc
@@ -261,7 +242,7 @@ void ADCC_SetUpperThreshold(int16_t upperThreshold);
  * @param lowerThreshold - 16-bit value for lower threshold.
  * @return none
 */
-void ADCC_SetLowerThreshold(int16_t lowerThreshold);
+void ADCC_SetLowerThreshold(uint16_t lowerThreshold);
 
 /**
  * @ingroup adcc
@@ -270,7 +251,7 @@ void ADCC_SetLowerThreshold(int16_t lowerThreshold);
  * @param none
  * @return 16-bit value obtained from ADERRH and ADERRL registers.
 */
-int16_t ADCC_GetErrorCalculation(void);
+uint16_t ADCC_GetErrorCalculation(void);
 
 /**
  * @ingroup adcc

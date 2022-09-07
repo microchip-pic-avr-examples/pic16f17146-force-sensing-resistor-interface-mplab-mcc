@@ -91,14 +91,14 @@ void ADCC_Initialize(void)
     ADCON3 = 0x7;
     //ADMATH registers not updated; 
     ADSTAT = 0x0;
-    //ADPREF FVR; 
-    ADREF = 0x3;
+    //ADPREF VDD; 
+    ADREF = 0x0;
     //ADACT TMR2; 
     ADACT = 0x4;
     //ADCCS FOSC/4; 
     ADCLK = 0x1;
-    //GO_nDONE undefined; ADIC differential mode; ADFM right justified, two's compliment; ADCS FOSC; ADCONT disabled; ADON enabled; 
-    ADCON0 = 0x86;
+    //GO_nDONE undefined; ADIC single-ended mode; ADFM right justified; ADCS FOSC; ADCONT disabled; ADON enabled; 
+    ADCON0 = 0x84;
     
     // Clear the ADC interrupt flag
     PIR6bits.ADIF = 0;
@@ -110,11 +110,10 @@ void ADCC_Initialize(void)
     // Enabling ADCC threshold interrupt.
     PIE6bits.ADTIE = 1;
 }
-void ADCC_StartConversion(adcc_posChannel_t posChannel,adcc_negChannel_t negChannel)
+void ADCC_StartConversion(adcc_channel_t channel)
 {
-    // select the A/D channels
-    ADPCH = posChannel;
-    ADNCH = negChannel;
+    // select the A/D channel
+    ADPCH = channel;
   
     // Turn on the ADC module
     ADCON0bits.ADON = 1;
@@ -135,11 +134,10 @@ adc_result_t ADCC_GetConversionResult(void)
     return ((adc_result_t)((ADRESH << 8) + ADRESL));
 }
 
-adc_result_t ADCC_GetSingleConversion(adcc_posChannel_t posChannel,adcc_negChannel_t negChannel)
+adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel)
 {
-    // select the A/D channels
-    ADPCH = posChannel;
-    ADNCH = negChannel;
+    // select the A/D channel
+    ADPCH = channel;  
 
     // Turn on the ADC module
     ADCON0bits.ADON = 1;
@@ -210,51 +208,50 @@ inline void ADCC_ClearAccumulator(void)
     ADCON2bits.ADACLR = 1;
 }
 
-int24_t ADCC_GetAccumulatorValue(void)
+uint24_t ADCC_GetAccumulatorValue(void)
 {
     //Return the contents of ADACCU, ADACCH and ADACCL registers
-    return (((int24_t)ADACCU << 16)+((int24_t)ADACCH << 8) + ADACCL);
+    return (((uint24_t)ADACCU << 16)+((uint24_t)ADACCH << 8) + ADACCL);
 }
 
-void ADCC_DefineSetPoint(int16_t setPoint)
+void ADCC_DefineSetPoint(uint16_t setPoint)
 {
     //Sets the ADSTPTH and ADSTPTL registers
-    ADSTPTH = (int8_t) (setPoint >> 8);
-    ADSTPTL = (int8_t) setPoint;
+    ADSTPTH = (uint8_t) (setPoint >> 8);
+    ADSTPTL = (uint8_t) setPoint;
 }
 
-int16_t ADCC_GetErrorCalculation(void)
+uint16_t ADCC_GetErrorCalculation(void)
 {
     //Return the contents of ADERRH and ADERRL registers
-    return ((int16_t)((ADERRH << 8) + ADERRL));
+    return ((uint16_t)((ADERRH << 8) + ADERRL));
 }
 
-void ADCC_SetUpperThreshold(int16_t upperThreshold)
+void ADCC_SetUpperThreshold(uint16_t upperThreshold)
 {
     //Sets the ADUTHH and ADUTHL registers
-    ADUTHH = (int8_t) (upperThreshold >> 8);
-    ADUTHL = (int8_t) upperThreshold;
+    ADUTHH = (uint8_t) (upperThreshold >> 8);
+    ADUTHL = (uint8_t) upperThreshold;
 }
 
-void ADCC_SetLowerThreshold(int16_t lowerThreshold)
+void ADCC_SetLowerThreshold(uint16_t lowerThreshold)
 {
     //Sets the ADLTHH and ADLTHL registers
-    ADLTHH = (int8_t) (lowerThreshold >> 8);
-    ADLTHL = (int8_t) lowerThreshold;
+    ADLTHH = (uint8_t) (lowerThreshold >> 8);
+    ADLTHL = (uint8_t) lowerThreshold;
 }
 
-int16_t ADCC_GetFilterValue(void)
+uint16_t ADCC_GetFilterValue(void)
 {
     //Return the contents of ADFLTRH and ADFLTRL registers
-    return ((int16_t)((ADFLTRH << 8) + ADFLTRL));
+    return ((uint16_t)((ADFLTRH << 8) + ADFLTRL));
 }
 
-int16_t ADCC_GetPreviousResult(void)
+uint16_t ADCC_GetPreviousResult(void)
 {
     //Return the contents of ADPREVH and ADPREVL registers
-    return ((int16_t)((ADPREVH << 8) + ADPREVL));
+    return ((uint16_t)((ADPREVH << 8) + ADPREVL));
 }
-
 
 bool ADCC_HasAccumulatorOverflowed(void)
 {

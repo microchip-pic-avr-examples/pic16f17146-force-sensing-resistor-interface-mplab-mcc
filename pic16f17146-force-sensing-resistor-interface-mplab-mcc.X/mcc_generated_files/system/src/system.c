@@ -45,9 +45,7 @@ void SYSTEM_Initialize(void)
     CLOCK_Initialize();
     PIN_MANAGER_Initialize();
     ADCC_Initialize();
-    DAC1_Initialize();
     EUSART1_Initialize();
-    FVR_Initialize();
     OPA1_Initialize();
     Timer2_Initialize();
     INTERRUPT_Initialize();

@@ -40,14 +40,12 @@
 #include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <stdio.h>
+#include <conio.h>
 #include "config_bits.h"
 #include "../system/clock.h"
 #include "../system/pins.h"
 #include "../adcc/adcc.h"
-#include "../dac/dac1.h"
 #include "../uart/eusart1.h"
-#include "../fvr/fvr.h"
 #include "../opa/opa1.h"
 #include "../timer/tmr2.h"
 #include "../system/interrupt.h"

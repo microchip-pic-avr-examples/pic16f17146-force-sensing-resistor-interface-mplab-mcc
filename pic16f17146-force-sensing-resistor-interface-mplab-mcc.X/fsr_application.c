@@ -22,7 +22,7 @@
 #include "fsr_application.h"
 
 // Uncomment below #define for graphical view of the ADCC results
-//#define GRAPH_FSR
+#define GRAPH_FSR
 
 #ifdef GRAPH_FSR 
 #define  TIMER2_PERIOD (17)       // For 100ms Timer period
@@ -30,52 +30,81 @@
 #define  TIMER2_PERIOD  (170)    // For 1s Timer period
 #endif
 
-//defines for sending data to data visualizer graph
+// Macros for sending data to data visualizer graph
 #define START_OF_FRAME (0x5F)
 #define END_OF_FRAME (0xA0)
 
-#define ADCC_MAX_COUNT  (1650) // ADCC output varies from 0 to 1.65 (Vdd/2), ADCC reference is 2.048V
-#define HARDWARE_FAULT_COUNT (ADCC_MAX_COUNT - 15) // Hardware fault will be raised once it crosses ~99% of ADCC full count
+#define ADCC_MAX_COUNT  (4095) // 12-bit ADCC in single ended mode
+#define ADCC_COUNT_WHEN_NO_CLICK (ADCC_MAX_COUNT - 40) // ADCC count when proto click is not connected (99% of ADCC_MAX_COUNT)
+
+// Different state of ADCC conversion
+typedef enum {
+        RESTART,
+        COMPLETED,
+        INITIATE
+}adccConversionState_t;
 
 adccConversionState_t adccConversion = INITIATE;
-int16_t adccBaseValue = 0;
-int16_t adccOffsetValueForNoForce = 0;
+uint16_t adccCountSpan = 0;
+uint16_t adccCountAtNoForce = 0;
 
-void ADCC_UserInterruptHandler(void)
+void FSR_Initilialize(void)
 {
-    adccConversion = COMPLETED;
+    SetADCCPositiveChannel(channel_OPA1OUT);
+
+    PIE6bits.ADTIE = 0; // Disable ADCC threshold interrupt 
+    PIR6bits.ADTIF = 0; // Clear ADCC threshold interrupt flag
+
+    ADCON0bits.ADGO = 1; // Start ADCC conversion
+    while (!(PIR6bits.ADTIF)); // Wait for ADCC conversion to complete
+    
+    adccCountAtNoForce = ADCC_GetFilterValue();
+    adccCountSpan = ADCC_MAX_COUNT - adccCountAtNoForce;
+
+    ADCC_SetADTIInterruptHandler(ADCC_UserInterruptHandler);
+
+    PIR6bits.ADTIF = 0; // Clear ADCC threshold interrupt flag
+    PIE6bits.ADTIE = 1; // Enable ADCC threshold interrupt
+    
+    Timer2.PeriodCountSet(TIMER2_PERIOD); // Set ADCC auto trigger interval
+    Timer2.Start(); //Start ADCC sampling
+}
+
+void SetADCCPositiveChannel(adcc_channel_t channel)
+{
+    ADPCH = channel;
 }
 
 void FSRApplication_Task(void)
 {
-    int16_t adccCount = 0;
-    uint8_t percentageForce = 0;
-    int16_t actualADCCount = 0;
+    uint16_t adccCount = 0;
+    uint16_t effectiveADCCCount = 0; // Actual ADCC count effective for applied force
     float fractionForce = 0.0;
+    uint8_t percentageForce = 0;
 
     if (adccConversion == COMPLETED)
     {
         adccConversion = RESTART;
 
-        LED0_Toggle(); // To verify whether conversion is done 
+        LED0_Toggle(); // To indicate whether conversion is done 
 
         adccCount = ADCC_GetFilterValue();
 
-        if ((adccCount <= 0) || (adccCount >= HARDWARE_FAULT_COUNT))
+        if (adccCount >= ADCC_COUNT_WHEN_NO_CLICK)
         {
-            printf("ADC Count : %d \r\n", adccCount);
+            printf("ADCC Count : %u \r\n", adccCount);
             printf("Hardware Fault \r\n\n");
         }
         else
         {
-            if (adccCount <= adccOffsetValueForNoForce)
+            if (adccCount <= adccCountAtNoForce)
             {
                 percentageForce = 0;
             }
             else
             {
-                actualADCCount = (adccCount - adccOffsetValueForNoForce);
-                fractionForce = (float) actualADCCount / adccBaseValue;
+                effectiveADCCCount = adccCount - adccCountAtNoForce;
+                fractionForce = (float) effectiveADCCCount / adccCountSpan;
                 percentageForce = (uint8_t) (fractionForce * 100);
             }
 
@@ -83,48 +112,22 @@ void FSRApplication_Task(void)
             while (!(UART1.IsTxReady()));
             UART1.Write(START_OF_FRAME);
             while (!(UART1.IsTxReady()));
-            UART1.Write(ADFLTRL);
+            UART1.Write((uint8_t)(adccCount)); 
             while (!(UART1.IsTxReady()));
-            UART1.Write(ADFLTRH);
+            UART1.Write((uint8_t)(adccCount >> 8)); 
             while (!(UART1.IsTxReady()));
             UART1.Write(percentageForce);
             while (!(UART1.IsTxReady()));
             EUSART1_Write(END_OF_FRAME);
 #else 
-            printf("ADCC Count : %d \r\n", adccCount);
-            printf("Force applied :  %u % \r\n\n", percentageForce);
+            printf("ADCC Count : %u \r\n", adccCount);
+            printf("Force applied :  %u %% \r\n\n", percentageForce);
 #endif
         }
     }
 }
 
-void FSR_Initilialize(void)
+void ADCC_UserInterruptHandler(void)
 {
-    SetADCCInputChannel();
-
-    PIE6bits.ADTIE = 0; // Disable ADCC threshold interrupt.
-
-    Timer2.PeriodCountSet(TIMER2_PERIOD); // Set ADCC auto trigger interval
-
-    Timer2.Start(); //Start ADCC sampling
-
-    while (!(PIR6bits.ADTIF)); // Wait for ADCC conversion to complete
-
-    adccOffsetValueForNoForce = ADCC_GetFilterValue();
-
-    adccBaseValue = (ADCC_MAX_COUNT - adccOffsetValueForNoForce);
-
-    ADCC_SetADTIInterruptHandler(ADCC_UserInterruptHandler);
-
-    PIR6bits.ADTIF = 0;
-
-    PIE6bits.ADTIE = 1; // Enable ADCC threshold interrupt
+    adccConversion = COMPLETED;
 }
-
-void SetADCCInputChannel(void)
-{
-    ADPCH = pChannel_OPA1OUT; // Set Positive Channel
-
-    ADNCH = pChannel_DAC1OUT; // Set Negative Channel
-}
-
