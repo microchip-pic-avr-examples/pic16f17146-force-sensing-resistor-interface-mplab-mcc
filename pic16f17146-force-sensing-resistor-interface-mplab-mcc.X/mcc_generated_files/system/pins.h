@@ -12,7 +12,7 @@
 */
 
 /*
-© [2022] Microchip Technology Inc. and its subsidiaries.
+© [2023] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -68,7 +68,6 @@
 #define RA2_IN2_SetOpenDrain()       do { ODCONAbits.ODCA2 = 1; } while(0)
 #define RA2_IN2_SetAnalogMode()      do { ANSELAbits.ANSA2 = 1; } while(0)
 #define RA2_IN2_SetDigitalMode()     do { ANSELAbits.ANSA2 = 0; } while(0)
-
 // get/set IO_RB5 aliases
 #define IO_RB5_TRIS                 TRISBbits.TRISB5
 #define IO_RB5_LAT                  LATBbits.LATB5
@@ -88,7 +87,6 @@
 #define IO_RB5_SetOpenDrain()       do { ODCONBbits.ODCB5 = 1; } while(0)
 #define IO_RB5_SetAnalogMode()      do { ANSELBbits.ANSB5 = 1; } while(0)
 #define IO_RB5_SetDigitalMode()     do { ANSELBbits.ANSB5 = 0; } while(0)
-
 // get/set IO_RB7 aliases
 #define IO_RB7_TRIS                 TRISBbits.TRISB7
 #define IO_RB7_LAT                  LATBbits.LATB7
@@ -108,7 +106,6 @@
 #define IO_RB7_SetOpenDrain()       do { ODCONBbits.ODCB7 = 1; } while(0)
 #define IO_RB7_SetAnalogMode()      do { ANSELBbits.ANSB7 = 1; } while(0)
 #define IO_RB7_SetDigitalMode()     do { ANSELBbits.ANSB7 = 0; } while(0)
-
 // get/set IO_RC1 aliases
 #define LED0_TRIS                 TRISCbits.TRISC1
 #define LED0_LAT                  LATCbits.LATC1
@@ -128,7 +125,6 @@
 #define LED0_SetOpenDrain()       do { ODCONCbits.ODCC1 = 1; } while(0)
 #define LED0_SetAnalogMode()      do { ANSELCbits.ANSC1 = 1; } while(0)
 #define LED0_SetDigitalMode()     do { ANSELCbits.ANSC1 = 0; } while(0)
-
 // get/set IO_RC2 aliases
 #define IO_RC2_TRIS                 TRISCbits.TRISC2
 #define IO_RC2_LAT                  LATCbits.LATC2
@@ -148,7 +144,6 @@
 #define IO_RC2_SetOpenDrain()       do { ODCONCbits.ODCC2 = 1; } while(0)
 #define IO_RC2_SetAnalogMode()      do { ANSELCbits.ANSC2 = 1; } while(0)
 #define IO_RC2_SetDigitalMode()     do { ANSELCbits.ANSC2 = 0; } while(0)
-
 /**
  * @ingroup  pinsdriver
  * @brief GPIO and peripheral I/O initialization

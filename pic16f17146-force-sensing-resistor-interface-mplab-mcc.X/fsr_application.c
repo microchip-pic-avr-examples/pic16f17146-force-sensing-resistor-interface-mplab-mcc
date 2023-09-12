@@ -22,7 +22,7 @@
 #include "fsr_application.h"
 
 // Uncomment below #define for graphical view of the ADCC results
-#define GRAPH_FSR
+//#define GRAPH_FSR
 
 #ifdef GRAPH_FSR 
 #define  TIMER2_PERIOD (17)       // For 100ms Timer period
